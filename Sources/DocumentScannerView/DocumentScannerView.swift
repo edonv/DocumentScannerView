@@ -19,7 +19,7 @@ public struct DocumentScannerView: UIViewControllerRepresentable {
     /// Depending on ``scanSaveMode-swift.property``, successful scans will either append pages to, or overwrite entirely, this property. Either way, this property won't be emptied automatically.
     @Binding public var scannedPages: [UIImage]
     
-    /// The way in which scanned pages should be saved to ``images``.
+    /// The way in which scanned pages should be saved to ``scannedPages``.
     public var scanSaveMode: ScanSaveMode
     
     /// Creates a scanner that scans documents.
