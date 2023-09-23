@@ -1,0 +1,5 @@
+version: 1
+builder:
+  configs:
+    - target: DocumentScannerView
+      documentation_targets: [DocumentScannerView]
