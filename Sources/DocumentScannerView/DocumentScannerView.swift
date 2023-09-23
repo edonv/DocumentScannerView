@@ -22,6 +22,19 @@ public struct DocumentScannerView: UIViewControllerRepresentable {
         self.onCompletion = onCompletion
     }
     
+    /// Creates a scanner that scans documents.
+    /// - Parameter onCompletion: A callback that will be invoked when the scanning operation has succeeded or failed.
+    public init(onCompletion: @escaping (Result<PDFDocument, Error>) -> Void) {
+        self.onCompletion = { result in
+            switch result {
+            case .success(let images):
+                onCompletion(.success(PDFDocument(images)))
+            case .failure(let error):
+                onCompletion(.failure(error))
+            }
+        }
+    }
+    
     public func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
         let vc = VNDocumentCameraViewController()
         vc.delegate = context.coordinator
