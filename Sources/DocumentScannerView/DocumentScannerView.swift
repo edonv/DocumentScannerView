@@ -11,8 +11,8 @@ import PDFKit
 
 /// A view that scans documents.
 public struct DocumentScannerView: UIViewControllerRepresentable {
-    //    @Environment(\.dismiss)
-    //    var dismissAction
+//    @Environment(\.dismiss)
+//    var dismissAction
     
     /// `UIImage` representations of the pages scanned.
     ///
