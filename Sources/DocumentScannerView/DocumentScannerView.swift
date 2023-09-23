@@ -11,8 +11,8 @@ import PDFKit
 
 /// A view that scans documents.
 public struct DocumentScannerView: UIViewControllerRepresentable {
-//    @Environment(\.dismiss)
-//    var dismissAction
+    @Environment(\.presentationMode)
+    private var presentationMode
     
     public var onCompletion: (Result<[UIImage], Error>) -> Void
     
@@ -50,7 +50,7 @@ public struct DocumentScannerView: UIViewControllerRepresentable {
     }
     
     private func dismiss() {
-//        dismissAction()
+        presentationMode.wrappedValue.dismiss()
     }
     
     /// A Boolean variable that indicates whether or not the current device supports document scanning.
