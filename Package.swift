@@ -4,20 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "DocumentScanView",
+    name: "DocumentScannerView",
+    platforms: [
+        .iOS(.v13),
+        .macCatalyst(.v13),
+        .visionOS(.v1)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "DocumentScanView",
-            targets: ["DocumentScanView"]),
+            name: "DocumentScannerView",
+            targets: ["DocumentScannerView"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "DocumentScanView"),
+            name: "DocumentScannerView"),
         .testTarget(
-            name: "DocumentScanViewTests",
-            dependencies: ["DocumentScanView"]),
+            name: "DocumentScannerViewTests",
+            dependencies: ["DocumentScannerView"]),
     ]
 )
