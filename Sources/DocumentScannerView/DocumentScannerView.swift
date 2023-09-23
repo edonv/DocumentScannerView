@@ -14,21 +14,12 @@ public struct DocumentScannerView: UIViewControllerRepresentable {
 //    @Environment(\.dismiss)
 //    var dismissAction
     
-    /// `UIImage` representations of the pages scanned.
-    ///
-    /// Depending on ``scanSaveMode-swift.property``, successful scans will either append pages to, or overwrite entirely, this property. Either way, this property won't be emptied automatically.
-    @Binding public var scannedPages: [UIImage]
-    
-    /// The way in which scanned pages should be saved to ``scannedPages``.
-    public var scanSaveMode: ScanSaveMode
+    public var onCompletion: (Result<[UIImage], Error>) -> Void
     
     /// Creates a scanner that scans documents.
-    /// - Parameters:
-    ///   - scannedPages: Image representations of scanned pages.
-    ///   - scanSaveMode: The method of which to save scanned pages.
-    public init(scannedPages: Binding<[UIImage]>, scanSaveMode: ScanSaveMode = .replace) {
-        self._scannedPages = scannedPages
-        self.scanSaveMode = scanSaveMode
+    /// - Parameter onCompletion: A callback that will be invoked when the scanning operation has succeeded or failed.
+    public init(onCompletion: @escaping (Result<[UIImage], Error>) -> Void) {
+        self.onCompletion = onCompletion
     }
     
     public func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
@@ -66,15 +57,7 @@ extension DocumentScannerView {
         }
         
         public func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-            let pages = (0..<scan.pageCount).map(scan.imageOfPage(at:))
-            
-            switch parent.scanSaveMode {
-            case .replace:
-                parent.scannedPages = pages
-            case .append:
-                parent.scannedPages.append(contentsOf: pages)
-            }
-            
+            parent.onCompletion(.success((0..<scan.pageCount).map(scan.imageOfPage(at:))))
             parent.dismiss()
         }
         
@@ -84,6 +67,7 @@ extension DocumentScannerView {
         
         public func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
             print("Error:", error)
+            parent.onCompletion(.failure(error))
             parent.dismiss()
         }
     }
